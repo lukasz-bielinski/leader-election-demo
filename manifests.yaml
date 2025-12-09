@@ -65,7 +65,7 @@ spec:
                   fieldPath: metadata.name
             # Optional: override default lease name
             - name: LEASE_NAME
-              value: "my-custom-lease"
+              value: "leader-election-demo"
           volumeMounts:
             - name: data
               mountPath: /data
