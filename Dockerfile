@@ -17,7 +17,7 @@ COPY *.go ./
 
 # Build with cache mount for Go build cache
 RUN --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 go build -ldflags="-w -s" -o /leader-election .
+    CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-w -s" -o /leader-election .
 
 # Runtime - alpine for shell access (demo)
 FROM alpine:3.20
