@@ -23,4 +23,3 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 FROM alpine:3.20
 COPY --from=builder /leader-election /leader-election
 ENTRYPOINT ["/leader-election"]
-
