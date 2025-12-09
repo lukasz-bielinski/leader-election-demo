@@ -16,8 +16,10 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 COPY *.go ./
 
 # Build with cache mount for Go build cache
+# TARGETARCH is automatically set by buildx based on --platform
+ARG TARGETARCH
 RUN --mount=type=cache,target=/root/.cache/go-build \
-    CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-w -s" -o /leader-election .
+    CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -ldflags="-w -s" -o /leader-election .
 
 # Runtime - alpine for shell access (demo)
 FROM alpine:3.20
