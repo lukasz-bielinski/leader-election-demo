@@ -11,21 +11,21 @@ func main() {
 	klog.InitFlags(nil)
 
 	var id, leaseName, namespace string
-	flag.StringVar(&id, "id", os.Getenv("HOSTNAME"), "unique instance identity")
-	flag.StringVar(&leaseName, "lease-name", "leader-election-demo", "lease name")
-	flag.StringVar(&namespace, "namespace", os.Getenv("NAMESPACE"), "namespace")
+	flag.StringVar(&id, "id", getEnv("HOSTNAME", "unknown"), "unique instance identity")
+	flag.StringVar(&leaseName, "lease-name", getEnv("LEASE_NAME", "leader-election-demo"), "lease name")
+	flag.StringVar(&namespace, "namespace", getEnv("NAMESPACE", "default"), "namespace")
 	flag.Parse()
-
-	if namespace == "" {
-		namespace = "default"
-	}
-	if id == "" {
-		id = "unknown"
-	}
 
 	// Create business logic worker
 	worker := NewFileProcessor("/data", id)
 
 	// Run leader election with worker callbacks
 	RunLeaderElection(id, namespace, leaseName, worker)
+}
+
+func getEnv(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
 }

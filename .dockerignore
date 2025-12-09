@@ -1,0 +1,27 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+README*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Build artifacts
+bin/
+*.test
+*.out
+
+# Temporary files
+*.log
+*.tmp
+temp/
+
+# Cursor IDE (already in .gitignore but explicit here)
+.cursor/
+

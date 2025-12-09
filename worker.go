@@ -27,17 +27,20 @@ func NewFileProcessor(dataDir, id string) *FileProcessor {
 
 // Start begins processing files (only called when leader)
 func (p *FileProcessor) Start(ctx context.Context) {
-	klog.InfoS("File processor started", "id", p.id)
+	klog.InfoS("🚀 LEADER STARTED - I will process files", "id", p.id)
 
-	ticker := time.NewTicker(3 * time.Second)
+	ticker := time.NewTicker(5 * time.Second)
 	defer ticker.Stop()
 
+	tick := 0
 	for {
 		select {
 		case <-ctx.Done():
-			klog.Info("File processor stopped")
+			klog.InfoS("🛑 LEADER STOPPED", "id", p.id)
 			return
 		case <-ticker.C:
+			tick++
+			klog.InfoS("💚 LEADER HEARTBEAT", "id", p.id, "tick", tick)
 			p.processAllFiles(ctx)
 		}
 	}
@@ -75,7 +78,7 @@ func (p *FileProcessor) processAllFiles(ctx context.Context) {
 
 func (p *FileProcessor) processFile(src, dst string) {
 	name := filepath.Base(src)
-	klog.InfoS("Processing", "file", name, "leader", p.id)
+	klog.InfoS("📄 PROCESSING FILE", "file", name, "leader", p.id)
 
 	// Simulate work
 	time.Sleep(2 * time.Second)
@@ -87,5 +90,5 @@ func (p *FileProcessor) processFile(src, dst string) {
 	os.WriteFile(dst, []byte(result), 0644)
 	os.Remove(src)
 
-	klog.InfoS("Done", "file", name, "leader", p.id)
+	klog.InfoS("✅ FILE DONE", "file", name, "leader", p.id)
 }
