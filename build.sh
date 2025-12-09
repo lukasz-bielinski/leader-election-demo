@@ -3,7 +3,7 @@
 set -euo pipefail
 
 NAMESPACE="leader-election-go"
-LEASE_NAME="${LEASE_NAME:-my-custom-lease}"
+LEASE_NAME="${LEASE_NAME:-leader-election-demo}"
 
 case "${1:-help}" in
   deploy)
